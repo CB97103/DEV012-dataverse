@@ -2,30 +2,31 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kaonashi Pelis</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="img/ico" href="./favicon_logo.ico" />
-    
   </head>
   <body>
-  
     <header>
-      <img id="logo" src="./logokaonashi.png"/>
-      <h1>Kaonashi Pelis</h1> 
-      
-      <input type="checkbox" id="check">
+      <img id="logo" src="./logokaonashi.png" />
+      <h1>Kaonashi Pelis</h1>
+
+      <input type="checkbox" id="check" />
       <label for="check" class="checkbtn">
-      <img class="menuIcon" src="img/iconoMenu.png">
-    </label>
+        <img class="menuIcon" src="img/iconoMenu.png" />
+      </label>
     </header>
-  <nav>
-     
-      
-      <input id="inputFilter" name="searchButton" type="search" placeholder="Buscar película"/>
-      
+    <nav>
+      <input
+        id="inputFilter"
+        name="searchButton"
+        type="search"
+        placeholder="Buscar película"
+      />
+
       <label for="genre"></label>
-      <select id ="genre" data-testid="select-filter" name="genre">
+      <select id="genre" data-testid="select-filter" name="genre">
         <option disabled selected value="">Genero</option>
         <option value="Acción">Acción</option>
         <option value="Aventura">Aventura</option>
@@ -67,6 +68,7 @@
         <option value="1995">1995</option>
         <option value="1997">1997</option>
         <option value="2001">2001</option>
+        <option value="2003">2003</option>
         <option value="2004">2004</option>
         <option value="2006">2006</option>
         <option value="2013">2013</option>
@@ -84,17 +86,15 @@
       </select>
 
       <button id="button" data-testid="button-clear">Limpiar</button>
-</nav> 
-      <div class ="metricas"><br></div>
-      <p class ="compute-stats"></p>
-   
-  
+    </nav>
+    
+    <div class="metrics"><br /></div>
+    <p class="compute-stats"></p>
 
-  <div id="root" class="container">
-  </div>
-  <div id="noResultsFound" ></div>
+    <div id="root" class="container"></div>
+    <div id="noResultsFound"></div>
 
- <!-- <section class="menuResposive">*/
+    <!-- <section class="menuResposive">*/
     
     <label for="menu">Menu</label>
     <select  multiple data-testid="select-sort" name="ordenAlfabetico">
@@ -152,7 +152,7 @@
     </section>-->
     <footer>
       <p>
-        Belén Osorio y Gineth Guáqueta<br>
+        Belén Osorio y Gineth Guáqueta<br />
         <strong>Proyecto Dataverse de Laboratia</strong>
       </p>
     </footer>

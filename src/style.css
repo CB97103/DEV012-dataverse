@@ -51,7 +51,7 @@ nav {
 input {
   font-size: 18px;
   text-align: left;
-  padding: 8px 10px 6px 8px;
+  padding: 8px 10px 6px 15px;
   margin: 0px 6px 0px 10px;
   box-shadow: 3px 3px 3px rgba(132, 132, 132, 0.13);
   border: 0;
@@ -71,12 +71,13 @@ select {
   box-shadow: 2px rgba(132, 132, 132, 0.13);
   border: 0;
   border-radius: 5px;
+  outline: none;
 }
 select[name="year"] {
   padding: 8px 12px 8px 12px;
 }
 select:hover {
-  background-color: #f8b943;
+  background-color: #fcbc46;
   transition: 5ms;
 }
 /*No funciona
@@ -100,16 +101,13 @@ button {
 button:hover {
   background-color: rgba(255, 12, 89, 0.902);
 }
-.metricas {
+.metrics {
   height: auto;
   color: white;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #c90040;
   padding-bottom: 15px;
-  /*
-  font-style: unset;
-*/
 }
 .compute-stats {
   font-size: 20px;
@@ -118,6 +116,7 @@ button:hover {
   padding: 10px 0px;
   background-color: rgb(40, 40, 40);
 }
+
 .cards {
   display: flex;
   flex-wrap: wrap;
