@@ -4,7 +4,7 @@
 
 * [1. Introducción](#1-Introducción)
 * [2. Inicio del proyecto](#2-inicio-del-proyecto)
-* [3. Historias de usuario](#3-Historias de usuario)
+* [3. Historias de usuario](#3-Historias-de-usuario)
 * [4. Prompting](#4-prompting)
 * [5. Prototipo](#5-prototipo)
 * [6. Consideraciones técnicas](#6-consideraciones-técnicas)
