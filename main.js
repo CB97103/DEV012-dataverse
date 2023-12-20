@@ -1,90 +1,117 @@
 import { searchByName } from "./dataFunctions.js";
-import { filterByGenre, filterByStudio, filterByYear, computeStats, metricasTotales } from "./dataFunctions.js";
+import {
+  filterByGenre,
+  filterByStudio,
+  filterByYear,
+  computeStats,
+  totalMetrics,
+} from "./dataFunctions.js";
 import { sortData } from "./dataFunctions.js";
 import { renderItems } from "./view.js";
 import data from "./data/dataset.js";
 
-//------------------------Data(Conteo de peliculas)-----------------------
-let filtroAcumulativo = data;
-const pcomputeStats = document.querySelector(".compute-stats");
-pcomputeStats.innerHTML="Total de películas: " + computeStats(filtroAcumulativo);
+//Declaración de variables
+let cumulativeFilter = data;
+const computeStatsContainer = document.querySelector(".compute-stats");
 
-//------------------------Metricas(enconstruccion)-----------------------
+//Filtro de búsqueda por nombre de película según el texto ingresado
+const searchInput = document.querySelector("#inputFilter");
+const noResultsFoundContainer = document.querySelector("#noResultsFound");
 
-const pmetricas = document.querySelector(".metricas");
-const totalesMetricas = document.createElement("p")
-totalesMetricas.textContent = metricasTotales(data);
-pmetricas.appendChild(totalesMetricas);
-
-//------------------------Invocar  el container-----------------------
-const cardsContainer = document.querySelector("#root");
-cardsContainer.innerHTML = renderItems(filtroAcumulativo);
-
-//------------------------Filtro de busqueda por input-----------------
-const inputSearch = document.querySelector("#inputFilter");
-const noResultsFound = document.querySelector("#noResultsFound");
-inputSearch.addEventListener("input", () => {
-  const inputValue = inputSearch.value.toLowerCase();
-  const filteredDataByName = searchByName(filtroAcumulativo, "input", inputValue);
-  if (filteredDataByName.length === 0) {
-    noResultsFound.textContent =
+searchInput.addEventListener("input", () => {
+  const inputSearchValue = searchInput.value.toLowerCase();
+  const filteredDataByName = searchByName(data, "input", inputSearchValue);
+  
+  if (filteredDataByName === "") {
+    noResultsFoundContainer.textContent = "";
+  } else if (filteredDataByName.length === 0) {
+    noResultsFoundContainer.textContent =
       "Lo sentimos, no se encontraron resultados que coincidan con la búsqueda.";
-  } 
-  cardsContainer.innerHTML = renderItems(filteredDataByName, noResultsFound);
-  pcomputeStats.innerHTML="Total de películas: " + computeStats(filteredDataByName);
+  }
+  cardsContainer.innerHTML = renderItems(
+    filteredDataByName,
+    noResultsFoundContainer
+  );
+  computeStatsContainer.innerHTML =
+  `Total de películas: ${computeStats(filteredDataByName)}`;
+
+  selectGenre.value = "";
+  selectStudio.value = "";
+  selectYear.value = "";
 });
 
-//------------------------Filtro por año-----------------------------
-const selectYear = document.querySelector('[name="year"]');
-selectYear.addEventListener("change", (e) => {
-  const yearSelected = e.target.value;
-  filtroAcumulativo = filterByYear(filtroAcumulativo, "year", yearSelected);
-  cardsContainer.innerHTML = renderItems(filtroAcumulativo);
-  pcomputeStats.innerHTML="Total de películas: " + computeStats(filtroAcumulativo);
-});
-
-//------------------------Filtro por genero---------------------------
+//Filtro por genero
 const selectGenre = document.querySelector('[name="genre"]');
 selectGenre.addEventListener("change", (e) => {
   const genreSelected = e.target.value;
-  filtroAcumulativo = filterByGenre(filtroAcumulativo, "genre", genreSelected);
-  cardsContainer.innerHTML = renderItems(filtroAcumulativo);
-  pcomputeStats.innerHTML="Total de películas: " + computeStats(filtroAcumulativo);
+  cumulativeFilter = filterByGenre(data, "genre", genreSelected);
+  cardsContainer.innerHTML = renderItems(cumulativeFilter);
+  computeStatsContainer.innerHTML =
+    "Total de películas: " + computeStats(cumulativeFilter);
+  selectStudio.value = "";
+  selectYear.value = "";
 });
 
-//------------------------Filtro por studio------------------------
+//Filtro por estudio
 const selectStudio = document.querySelector('[name="studio"]');
 selectStudio.addEventListener("change", (e) => {
   const studioSelected = e.target.value;
-  filtroAcumulativo = filterByStudio(filtroAcumulativo, "studio", studioSelected);
-  cardsContainer.innerHTML = renderItems(filtroAcumulativo);
-  pcomputeStats.innerHTML="Total de películas: " + computeStats(filtroAcumulativo);
+  cumulativeFilter = filterByStudio(data, "studio", studioSelected);
+  cardsContainer.innerHTML = renderItems(cumulativeFilter);
+  computeStatsContainer.innerHTML =
+    "Total de películas: " + computeStats(cumulativeFilter);
+  selectGenre.value = "";
+  selectYear.value = "";
 });
 
-
-
-//------------------------ascendente y descendente----------------------------- 
-const selectOrder = document.querySelector('[name="name"]');
-selectOrder.addEventListener("change", (e) => {
-  const orderSelected = e.target.value;
-  filtroAcumulativo = sortData(filtroAcumulativo, "name", orderSelected);
-  cardsContainer.innerHTML = renderItems(filtroAcumulativo);
-  pcomputeStats.innerHTML="Total de películas: " + computeStats(filtroAcumulativo);
+//Filtro por año
+const selectYear = document.querySelector('[name="year"]');
+selectYear.addEventListener("change", (e) => {
+  const yearSelected = e.target.value;
+  cumulativeFilter = filterByYear(data, "year", yearSelected);
+  cardsContainer.innerHTML = renderItems(cumulativeFilter);
+  computeStatsContainer.innerHTML =
+    "Total de películas: " + computeStats(cumulativeFilter);
+  selectGenre.value = "";
+  selectStudio.value = "";
 });
 
-//------------------------Boton limpiar-----------------------------
+//Ordenamiento ascendente y descendente
+const orderSelect = document.querySelector('[name="name"]');
+orderSelect.addEventListener("change", (e) => {
+  const selectedOrder = e.target.value;
+  cumulativeFilter = sortData(data, "name", selectedOrder);
+  cardsContainer.innerHTML = renderItems(cumulativeFilter);
+  computeStatsContainer.innerHTML =
+    "Total de películas: " + computeStats(cumulativeFilter);
+});
+
+//Botón limpiar: Restablece los valores de los selectores, el campo de búsqueda y los contenedores relacionados con la búsqueda
 const clearButton = document.getElementById("button");
 clearButton.addEventListener("click", function () {
-  const selectores = document.querySelectorAll("select");
-  const searchInput = document.querySelector('[name="searchButton"]');
-  selectores.forEach((selector) => {
+  const filterSelectors = document.querySelectorAll("select");
+  const searchInputField = document.querySelector('[name="searchButton"]');
+  filterSelectors.forEach((selector) => {
     selector.value = selector.options[0].value;
-    searchInput.value = "";
-    noResultsFound.innerHTML = "";
-    filtroAcumulativo = data;
-    cardsContainer.innerHTML = renderItems(filtroAcumulativo);
-    pcomputeStats.innerHTML = "Total de películas: " + computeStats(filtroAcumulativo);
+    searchInputField.value = "";
+    noResultsFoundContainer.innerHTML = "";
+    cumulativeFilter = data;
+    cardsContainer.innerHTML = renderItems(cumulativeFilter);
+    computeStatsContainer.innerHTML =
+      "Total de películas: " + computeStats(cumulativeFilter);
   });
-
 });
 
+//Estadística: Dinámicamente modifica el contenido HTML de un elemento computeStatsContainer para mostrar el número total de películas calculado por la función computeStats
+computeStatsContainer.innerHTML =
+  "Total de películas: " + computeStats(cumulativeFilter);
+
+//Estadística: Estudio con mayor cantidad de películas y el género que sobresale notablemente
+const metricsContainer = document.querySelector(".metrics");
+const totalMetricsElement = document.createElement("p");
+totalMetricsElement.textContent = totalMetrics(data);
+metricsContainer.appendChild(totalMetricsElement);
+
+//Actualiza dinámicamente el contenido del contenedor #root en HTML con las tarjetas generadas por la función renderItems  basándose en el filtro acumulado (cumulativeFilter).
+const cardsContainer = document.querySelector("#root");
+cardsContainer.innerHTML = renderItems(cumulativeFilter);
